@@ -10,6 +10,7 @@ class Index(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(Index, self).get_context_data(**kwargs)
         context['options'] = ModelWithCSV.OPTIONS
+        # Only using a single object for similicity
         obj = ModelWithCSV.objects.first()
         context['object'] = obj
         context['form'] = ModelWithCSVForm(instance=context['object'])
@@ -18,6 +19,7 @@ class Index(TemplateView):
     def post(self, request):
         context = self.get_context_data()
         data = request.POST.copy()
+        # Have to re-pack the form data into a regular string
         data['csv_field'] = ','.join(data.getlist('csv_field'))
 
         form = ModelWithCSVForm(data, instance=context['object'])

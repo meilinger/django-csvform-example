@@ -1,0 +1,25 @@
+{% load split %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <h1>{{ message }}</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form.data.csv_field|split:',' }}
+            <ul>
+            {% for item in options %}
+            <li>
+                <label for="selection">
+                    {{ item }}
+                    <input type="checkbox" name="csv_field" value="{{ item }}" {% if item in form.data.csv_field|split:',' %}checked{% endif %}/>
+                </label>
+            </li>
+            {% endfor %}
+            </ul>
+            <input type="submit"/>
+        </form>
+    </body>
+</html>
